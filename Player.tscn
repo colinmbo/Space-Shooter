@@ -1,7 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://cr3x08pgxfddy"]
+[gd_scene load_steps=18 format=3 uid="uid://cr3x08pgxfddy"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_pt7ql"]
 [ext_resource type="Texture2D" uid="uid://dng5wltwha8rn" path="res://crosshair.png" id="2_0buhs"]
+[ext_resource type="Shader" path="res://Vignette.gdshader" id="2_6j0hq"]
+[ext_resource type="PackedScene" uid="uid://cg0nqhcni8vf2" path="res://nate slime rigged.glb" id="4_p34c4"]
+[ext_resource type="Texture2D" uid="uid://dk5gdm82cltfa" path="res://slimeface0.png" id="5_2rho5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bfplb"]
+shader = ExtResource("2_6j0hq")
+shader_parameter/color = null
+shader_parameter/scale = 0.5
+shader_parameter/fade_inner_dist = 0.25
+shader_parameter/fade_outer_dist = 0.25
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1ffmj"]
 
@@ -20,6 +30,47 @@ properties/2/sync = true
 properties/3/path = NodePath("Camera3D:rotation")
 properties/3/spawn = true
 properties/3/sync = true
+properties/4/path = NodePath("CharacterModel/AnimationPlayer:current_animation")
+properties/4/spawn = true
+properties/4/sync = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2j30v"]
+diffuse_mode = 2
+albedo_color = Color(0.556863, 0.415686, 1, 1)
+roughness = 0.33
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s0cej"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fl6m2"]
+albedo_color = Color(0.415686, 0.384314, 0.364706, 1)
+roughness = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2c2ap"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("5_2rho5")
+
+[sub_resource type="QuadMesh" id="QuadMesh_kg2xp"]
+material = SubResource("StandardMaterial3D_2c2ap")
+size = Vector2(0.7, 0.7)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f1tv8"]
+load_path = "res://.godot/imported/slimeface1.png-fced5512f07adf47c4664568639b7246.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ud2k8"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = SubResource("CompressedTexture2D_f1tv8")
+
+[sub_resource type="QuadMesh" id="QuadMesh_lxs25"]
+material = SubResource("StandardMaterial3D_ud2k8")
+size = Vector2(0.7, 0.7)
 
 [node name="Player" type="RigidBody3D"]
 can_sleep = false
@@ -27,6 +78,14 @@ lock_rotation = true
 script = ExtResource("1_pt7ql")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Vignette" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_bfplb")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="FuelBar" type="ProgressBar" parent="CanvasLayer"]
 anchors_preset = 2
@@ -74,6 +133,7 @@ ignore_texture_size = true
 shape = SubResource("CapsuleShape3D_1ffmj")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("CapsuleMesh_lbmhr")
 skeleton = NodePath("")
 
@@ -90,3 +150,32 @@ target_position = Vector3(0, -0.6, 0)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_qxeo8")
+
+[node name="CharacterModel" parent="." instance=ExtResource("4_p34c4")]
+transform = Transform3D(-0.795307, 0, -6.95279e-08, 0, 0.795307, 0, 6.95279e-08, 0, -0.795307, 0, -1, 0)
+
+[node name="Body" parent="CharacterModel/Armature/Skeleton3D" index="0"]
+material_override = SubResource("StandardMaterial3D_2j30v")
+material_overlay = SubResource("StandardMaterial3D_s0cej")
+cast_shadow = 0
+
+[node name="Weapon" parent="CharacterModel/Armature/Skeleton3D" index="1"]
+transform = Transform3D(1, 0, 7.10543e-15, 0, 1, 0, -7.10543e-15, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_fl6m2")
+cast_shadow = 0
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="CharacterModel/Armature/Skeleton3D" index="2"]
+transform = Transform3D(1, -2.84217e-14, 2.38419e-07, 5.43119e-08, 0.973708, -0.227801, -2.3215e-07, 0.227801, 0.973708, -1.63605e-16, 0.350243, 0.298507)
+bone_name = "head"
+bone_idx = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterModel/Armature/Skeleton3D/BoneAttachment3D"]
+transform = Transform3D(1, 4.26326e-14, 2.27374e-13, 9.9476e-14, 1, -3.8743e-07, -5.68434e-14, 1.04308e-07, 0.999999, -1.09076e-07, 0.516991, 0.305307)
+mesh = SubResource("QuadMesh_kg2xp")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CharacterModel/Armature/Skeleton3D/BoneAttachment3D"]
+transform = Transform3D(1, 3.55271e-14, 1.98952e-13, 8.52651e-14, 1, -3.57628e-07, -8.52651e-14, 1.04308e-07, 0.999999, -1.09076e-07, 0.516991, 0.305307)
+visible = false
+mesh = SubResource("QuadMesh_lxs25")
+
+[editable path="CharacterModel"]

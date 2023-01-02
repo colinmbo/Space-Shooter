@@ -1,8 +1,17 @@
 0b7126e0c6e86d3ec295a72f5aa6e0bd
-::res://::1672626638
-BulletHole.gd::GDScript::-1::1672620916::0::1::::BulletHole<>Node3D<>::
+::res://::1672668168
+2k_ceres_fictional.jpg::CompressedTexture2D::1655771902895609764::1672651878::1672652110::1::::<><>::
+2k_earth_daymap.jpg::CompressedTexture2D::3729276141822096861::1672650156::1672650185::1::::<><>::
+2k_eris_fictional.jpg::CompressedTexture2D::6548315712399539620::1672651878::1672652100::1::::<><>::
+2k_haumea_fictional.jpg::CompressedTexture2D::8808328365973413150::1672651878::1672652087::1::::<><>::
+2k_jupiter.jpg::CompressedTexture2D::1891198207549246403::1672651878::1672651978::1::::<><>::
+2k_makemake_fictional.jpg::CompressedTexture2D::6544917478392453342::1672651878::1672651971::1::::<><>::
+2k_moon.jpg::CompressedTexture2D::2312671544683035575::1672650162::1672650172::1::::<><>::
+2k_neptune.jpg::CompressedTexture2D::2045213725889935170::1672651878::1672651912::1::::<><>::
+2k_stars.jpg::CompressedTexture2D::3091064320351221374::1672649989::1672649994::1::::<><>::
+BulletHole.gd::GDScript::-1::1672648744::0::1::::BulletHole<>Node3D<>::
 bullethole.png::CompressedTexture2D::2453299639913021888::1672620916::1672622587::1::::<><>::
-BulletHole.tscn::PackedScene::5361438703260591159::1672620916::0::1::::<><>::res://BulletHole.gd<>uid://ba7nqss2u8c5u
+BulletHole.tscn::PackedScene::5361438703260591159::1672667890::0::1::::<><>::res://BulletHole.gd<>uid://ba7nqss2u8c5u
 Checkered.webp::CompressedTexture2D::5715455740539977982::1672620916::1672622587::1::::<><>::
 crosshair.png::CompressedTexture2D::8085964690264092355::1672620916::1672622587::1::::<><>::
 GravityField.gd::GDScript::-1::1672620916::0::1::::<>Area3D<>::
@@ -10,7 +19,11 @@ GravityField.tscn::PackedScene::5659690866781790511::1672620916::0::1::::<><>::r
 Hitbox.gd::GDScript::-1::1672620916::0::1::::Hitbox<>Area3D<>::
 Hitbox.tscn::PackedScene::2939000213699337708::1672620916::0::1::::<><>::res://Hitbox.gd
 icon.svg::CompressedTexture2D::4772918219942783744::1672620916::1672622587::1::::<><>::
-Main.gd::GDScript::-1::1672620916::0::1::::<>Node3D<>::
-Main.tscn::PackedScene::4381958902942373875::1672624099::0::1::::<><>::res://Main.gd<>uid://cnouyrqrfomdi<>uid://cmvujtvlok4v8
-Player.gd::GDScript::-1::1672624099::0::1::::Player<>RigidBody3D<>::
-Player.tscn::PackedScene::6025297178773846818::1672624099::0::1::::<><>::res://Player.gd<>uid://dng5wltwha8rn
+Main.gd::GDScript::-1::1672645869::0::1::::<>Node3D<>::
+Main.tscn::PackedScene::4381958902942373875::1672667890::0::1::::<><>::res://Main.gd<>uid://77jmk87gioex<>uid://cmvujtvlok4v8<>uid://bteqvr8mj3vcv<>uid://17d01pe7w1sh<>uid://bkblm3w6vj1ty<>uid://xuck6psa8221<>uid://4eymvf3xfdkk<>uid://c0in3m341omws
+nate slime rigged.glb::PackedScene::5246402138030065729::1672667823::1672667824::1::::<><>::
+Player.gd::GDScript::-1::1672666734::0::1::::Player<>RigidBody3D<>::
+Player.tscn::PackedScene::6025297178773846818::1672667890::0::1::::<><>::res://Player.gd<>uid://dng5wltwha8rn<>res://Vignette.gdshader<>uid://cg0nqhcni8vf2
+slimeface0.png::CompressedTexture2D::7923452161908364814::1672668161::1672668173::1::::<><>::
+slimeface1.png::CompressedTexture2D::6052197363729329782::1672668168::1672668277::1::::<><>::
+Vignette.gdshader::Shader::-1::1672667890::0::1::::<><>::

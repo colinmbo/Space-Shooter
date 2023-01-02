@@ -24,6 +24,7 @@ func _on_host_button_up():
 	multiplayer.multiplayer_peer = multiplayer_peer
 	
 	multiplayer_peer.peer_connected.connect(func(id): add_player_character(id))
+	multiplayer_peer.peer_disconnected.connect(func(id): $NetworkedNodes.get_node(str(id)).queue_free())
 	
 	$CanvasLayer/Menu.visible = false
 	add_player_character()

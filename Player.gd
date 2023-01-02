@@ -33,6 +33,8 @@ var target_basis : Basis
 var is_on_floor = false
 var can_try_boosting = false
 
+var vignette_amt = 1
+
 
 func _input(event):
 	
@@ -55,6 +57,7 @@ func _ready():
 	set_multiplayer_authority(str(name).to_int())
 	
 	# Set correct multiplayer authority visibility
+	$CharacterModel.visible = !is_multiplayer_authority()
 	$CanvasLayer/HealthBar.visible = is_multiplayer_authority()
 	$CanvasLayer/FuelBar.visible = is_multiplayer_authority()
 	$Camera3D.current = is_multiplayer_authority()
@@ -62,6 +65,11 @@ func _ready():
 
 func _process(delta):
 	if is_multiplayer_authority():
+		
+		vignette_amt = clamp(vignette_amt - 0.001, 0, 1)
+		var vig = $CanvasLayer/Vignette.material as ShaderMaterial
+		vig.set_shader_parameter("scale", 1.0 - vignette_amt)
+		
 		$Camera3D.rotation.x = clamp($Camera3D.rotation.x, -PI/2, PI/2)
 		
 		if gravity_center_exists:
@@ -89,6 +97,9 @@ func _physics_process(delta):
 			
 			if input_dir:
 				apply_central_impulse(oriented_input_dir * move_speed)
+				$CharacterModel/AnimationPlayer.play("run_forward")
+			else:
+				$CharacterModel/AnimationPlayer.play("idle")
 			
 			if Input.is_action_just_pressed("jump"):
 				can_try_boosting = false
@@ -123,10 +134,12 @@ func _integrate_forces(state):
 
 func check_hitscan():
 	
-	print($MultiplayerSynchronizer.is_multiplayer_authority())
-	
 	var hs = $Camera3D/Hitscan as RayCast3D
 	hs.force_raycast_update()
+	
+	var b = "res://Bullet.tscn"
+	rpc_id(1, "spawn_instance", b, hs.global_position + hs.global_transform.basis.z, hs.global_transform.basis)
+	
 	if !hs.is_colliding():
 		return
 	
@@ -143,15 +156,35 @@ func check_hitscan():
 		# Bullethole
 		
 		#get_parent().get_node("MultiplayerSpawner").set_multiplayer_authority(get_multiplayer_authority())
-		var bh = load("res://BulletHole.tscn").instantiate()
+		var bh = "res://BulletHole.tscn"
 		
-		get_tree().root.get_child(0).get_node("NetworkedNodes").add_child(bh, true)
-		bh.global_position = hs.get_collision_point() + hs.get_collision_normal() * 0.1
-		bh.normal = hs.get_collision_normal()
-		print(str(get_multiplayer_authority()) + "	" + str(bh.global_position))
-	
+		#get_tree().root.get_child(0).get_node("NetworkedNodes").add_child(bh, true)
+		
+		
+		var orig = hs.get_collision_point() + hs.get_collision_normal() * 0.1
+		var norm = hs.get_collision_normal()
+		var flip_norm = Vector3(norm.z, norm.y, -norm.x)
+		var bas = Basis(norm.cross(flip_norm), norm, flip_norm).orthonormalized()
+		
+		rpc_id(1, "spawn_instance", bh, orig, bas)
 
-@rpc
+
+@rpc (call_local)
 func take_damage(path, dmg):
 	var entity = get_node(path)
 	entity.health -= dmg
+	entity.vignette_amt = 0.5
+	
+	var model = entity.get_node("CharacterModel/Armature/Skeleton3D/Body") as MeshInstance3D
+	model.material_overlay.albedo_color.a = 1
+	await get_tree().create_timer(0.2).timeout
+	model.material_overlay.albedo_color.a = 0
+	
+
+
+@rpc (call_local)
+func spawn_instance(path, orig, bas):
+	var inst = load(path).instantiate()
+	get_parent().add_child(inst, true)
+	inst.global_transform.origin = orig
+	inst.global_transform.basis = bas

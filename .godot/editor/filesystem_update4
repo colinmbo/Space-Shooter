@@ -4,3 +4,7 @@ res://Player.gd
 res://BulletHole.tscn
 res://Main.gd
 res://BulletHole.gd
+res://Vignette.gdshader
+res://CharacterModel.tscn
+res://Bullet.tscn
+res://Bullet.gd

@@ -1,17 +1,47 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3owhtxva1k56"]
+[gd_scene load_steps=20 format=3 uid="uid://b3owhtxva1k56"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1_tm555"]
-[ext_resource type="Texture2D" uid="uid://cnouyrqrfomdi" path="res://Checkered.webp" id="2_khfjj"]
+[ext_resource type="Texture2D" uid="uid://77jmk87gioex" path="res://2k_moon.jpg" id="2_oa2bx"]
 [ext_resource type="PackedScene" uid="uid://cmvujtvlok4v8" path="res://GravityField.tscn" id="3_lwwu3"]
+[ext_resource type="Texture2D" uid="uid://bteqvr8mj3vcv" path="res://2k_earth_daymap.jpg" id="4_5ox2v"]
+[ext_resource type="Texture2D" uid="uid://17d01pe7w1sh" path="res://2k_jupiter.jpg" id="4_7kcsf"]
+[ext_resource type="Texture2D" uid="uid://bkblm3w6vj1ty" path="res://2k_stars.jpg" id="4_cf2to"]
+[ext_resource type="Texture2D" uid="uid://xuck6psa8221" path="res://2k_ceres_fictional.jpg" id="6_8rsr0"]
+[ext_resource type="Texture2D" uid="uid://4eymvf3xfdkk" path="res://2k_neptune.jpg" id="7_n87rj"]
+[ext_resource type="Texture2D" uid="uid://c0in3m341omws" path="res://2k_makemake_fictional.jpg" id="8_615qu"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hcnes"]
-albedo_texture = ExtResource("2_khfjj")
+albedo_texture = ExtResource("2_oa2bx")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_suvkf"]
 radius = 75.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qtwc2"]
+albedo_texture = ExtResource("4_7kcsf")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cqbvy"]
+albedo_texture = ExtResource("4_5ox2v")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_71feh"]
+albedo_texture = ExtResource("6_8rsr0")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n4qeg"]
+albedo_texture = ExtResource("7_n87rj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gwr4i"]
+albedo_texture = ExtResource("8_615qu")
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cebe1"]
+panorama = ExtResource("4_cf2to")
+
+[sub_resource type="Sky" id="Sky_iy208"]
+sky_material = SubResource("PanoramaSkyMaterial_cebe1")
+
 [sub_resource type="Environment" id="Environment_pssv6"]
-background_mode = 1
+background_mode = 2
+sky = SubResource("Sky_iy208")
+ambient_light_source = 2
+ambient_light_color = Color(0.321569, 0.321569, 0.321569, 1)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_tm555")
@@ -41,12 +71,12 @@ offset_bottom = 101.0
 text = "Host"
 
 [node name="Sun" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.05711, 37.9499, 5.89277)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.05711, 44.6544, 5.89277)
 omni_range = 1000.0
 omni_attenuation = 1e-05
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.5755, -14.9777, -27.6294)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.4918, -14.9777, -33.5972)
 use_collision = true
 radius = 40.0
 radial_segments = 30
@@ -59,12 +89,12 @@ material = SubResource("StandardMaterial3D_hcnes")
 shape = SubResource("SphereShape3D_suvkf")
 
 [node name="CSGSphere3D2" type="CSGSphere3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72.7395, -14.9777, -27.6294)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 83.2865, -14.9777, -27.6294)
 use_collision = true
 radius = 40.0
 radial_segments = 30
 rings = 20
-material = SubResource("StandardMaterial3D_hcnes")
+material = SubResource("StandardMaterial3D_qtwc2")
 
 [node name="GravityField" parent="CSGSphere3D2" instance=ExtResource("3_lwwu3")]
 
@@ -77,20 +107,59 @@ use_collision = true
 radius = 40.0
 radial_segments = 30
 rings = 20
-material = SubResource("StandardMaterial3D_hcnes")
+material = SubResource("StandardMaterial3D_cqbvy")
 
 [node name="GravityField" parent="CSGSphere3D3" instance=ExtResource("3_lwwu3")]
 
 [node name="CollisionShape3D" parent="CSGSphere3D3/GravityField" index="0"]
 shape = SubResource("SphereShape3D_suvkf")
 
+[node name="CSGSphere3D4" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150.825, -44.5488, 97.04)
+use_collision = true
+radius = 40.0
+radial_segments = 30
+rings = 20
+material = SubResource("StandardMaterial3D_71feh")
+
+[node name="GravityField" parent="CSGSphere3D4" instance=ExtResource("3_lwwu3")]
+
+[node name="CollisionShape3D" parent="CSGSphere3D4/GravityField" index="0"]
+shape = SubResource("SphereShape3D_suvkf")
+
+[node name="CSGSphere3D5" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.88435, -44.5488, -151.269)
+use_collision = true
+radius = 40.0
+radial_segments = 30
+rings = 20
+material = SubResource("StandardMaterial3D_n4qeg")
+
+[node name="GravityField" parent="CSGSphere3D5" instance=ExtResource("3_lwwu3")]
+
+[node name="CollisionShape3D" parent="CSGSphere3D5/GravityField" index="0"]
+shape = SubResource("SphereShape3D_suvkf")
+
+[node name="CSGSphere3D6" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -140.962, -44.5488, 96.7616)
+use_collision = true
+radius = 40.0
+radial_segments = 30
+rings = 20
+material = SubResource("StandardMaterial3D_gwr4i")
+
+[node name="GravityField" parent="CSGSphere3D6" instance=ExtResource("3_lwwu3")]
+
+[node name="CollisionShape3D" parent="CSGSphere3D6/GravityField" index="0"]
+shape = SubResource("SphereShape3D_suvkf")
+
 [node name="NetworkedNodes" type="Node" parent="."]
 
 [node name="OverworldCamera" type="Camera3D" parent="."]
-transform = Transform3D(-0.994432, 0.079046, -0.0696884, 2.44424e-08, 0.661312, 0.750111, 0.105379, 0.745935, -0.65763, -8.65348, 44.952, -40.7266)
+transform = Transform3D(-0.994432, 0.079046, -0.0696884, 2.44424e-08, 0.661312, 0.750111, 0.105379, 0.745935, -0.65763, 14.7671, 119.368, -103.068)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Player.tscn", "res://Hitbox.tscn", "res://BulletHole.tscn")
+_spawnable_scenes = PackedStringArray("res://Player.tscn", "res://Hitbox.tscn", "res://BulletHole.tscn", "res://Bullet.tscn")
 spawn_path = NodePath("../NetworkedNodes")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -102,3 +171,6 @@ environment = SubResource("Environment_pssv6")
 [editable path="CSGSphere3D/GravityField"]
 [editable path="CSGSphere3D2/GravityField"]
 [editable path="CSGSphere3D3/GravityField"]
+[editable path="CSGSphere3D4/GravityField"]
+[editable path="CSGSphere3D5/GravityField"]
+[editable path="CSGSphere3D6/GravityField"]

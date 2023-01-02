@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://df6cllsjjwo4a"]
+
+[ext_resource type="Script" path="res://Bullet.gd" id="1_ynisd"]
+
+[sub_resource type="Gradient" id="Gradient_bs2kq"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_uau27"]
+gradient = SubResource("Gradient_bs2kq")
+fill_to = Vector2(0, 1)
+repeat = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_duuna"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = SubResource("GradientTexture2D_uau27")
+
+[sub_resource type="QuadMesh" id="QuadMesh_jwduo"]
+material = SubResource("StandardMaterial3D_duuna")
+size = Vector2(1, 12)
+
+[node name="Bullet" type="Node3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+script = ExtResource("1_ynisd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0, 0, -6)
+mesh = SubResource("QuadMesh_jwduo")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(4.37114e-08, -4.37114e-08, -1, -1, 1.74846e-07, -4.37114e-08, 1.74846e-07, 1, -4.37114e-08, 0, 0, -6)
+mesh = SubResource("QuadMesh_jwduo")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

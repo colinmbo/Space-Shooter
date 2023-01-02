@@ -1,2 +1,7 @@
+Timer
+MeshInstance3D
+BoneAttachment3D
+ColorRect
+TextureRect
 Node
 MultiplayerSpawner
