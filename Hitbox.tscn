@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bh4w50f1s3n61"]
+
+[ext_resource type="Script" path="res://Hitbox.gd" id="1_i0psh"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_khunr"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_48g5n"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+
+[node name="Hitbox" type="Area3D"]
+script = ExtResource("1_i0psh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_khunr")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_48g5n")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

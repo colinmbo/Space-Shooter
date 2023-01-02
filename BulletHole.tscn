@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://cined2va7l1qx"]
+
+[ext_resource type="Script" path="res://BulletHole.gd" id="1_er3g4"]
+[ext_resource type="Texture2D" uid="uid://ba7nqss2u8c5u" path="res://bullethole.png" id="1_ml6jw"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2a4cr"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+
+[node name="BulletHole" type="Node3D"]
+script = ExtResource("1_er3g4")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+alpha_cut = 1
+texture = ExtResource("1_ml6jw")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 6.0
+autostart = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_2a4cr")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
