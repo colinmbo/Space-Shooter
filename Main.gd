@@ -4,10 +4,14 @@ extends Node3D
 var multiplayer_peer = ENetMultiplayerPeer.new()
 
 
+func _process(delta):
+	pass
+
+
 func _on_join_button_up():
 	var port = str($CanvasLayer/Menu/Port.text).to_int()
 	
-	multiplayer_peer.create_client("localhost", port)
+	multiplayer_peer.create_client("192.168.1.71", port)
 	multiplayer.multiplayer_peer = multiplayer_peer
 	
 	$CanvasLayer/Menu.visible = false
@@ -18,6 +22,7 @@ func _on_host_button_up():
 	
 	multiplayer_peer.create_server(port)
 	multiplayer.multiplayer_peer = multiplayer_peer
+	
 	multiplayer_peer.peer_connected.connect(func(id): add_player_character(id))
 	
 	$CanvasLayer/Menu.visible = false
@@ -25,6 +30,9 @@ func _on_host_button_up():
 
 
 func add_player_character(id = 1):
+	
+	print("Player connected. ID: ", id)
 	var character = preload("res://Player.tscn").instantiate()
 	character.name = str(id)
-	add_child(character)
+	#character.set_multiplayer_authority(id)
+	$NetworkedNodes.add_child(character, true)

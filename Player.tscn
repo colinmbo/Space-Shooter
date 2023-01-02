@@ -1,13 +1,13 @@
 [gd_scene load_steps=6 format=3 uid="uid://cr3x08pgxfddy"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_pt7ql"]
-[ext_resource type="Texture2D" uid="uid://dng5wltwha8rn" path="res://crosshair.png" id="3_3q0t5"]
+[ext_resource type="Texture2D" uid="uid://dng5wltwha8rn" path="res://crosshair.png" id="2_0buhs"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jjbmv"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1ffmj"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_rjrip"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lbmhr"]
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3peuf"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qxeo8"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/sync = true
@@ -67,14 +67,14 @@ offset_right = 25.0
 offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_3q0t5")
+texture = ExtResource("2_0buhs")
 ignore_texture_size = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_jjbmv")
+shape = SubResource("CapsuleShape3D_1ffmj")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_rjrip")
+mesh = SubResource("CapsuleMesh_lbmhr")
 skeleton = NodePath("")
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -89,4 +89,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 target_position = Vector3(0, -0.6, 0)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_3peuf")
+replication_config = SubResource("SceneReplicationConfig_qxeo8")

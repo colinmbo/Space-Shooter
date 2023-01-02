@@ -9,4 +9,5 @@ var normal := Vector3.UP:
 
 
 func _on_timer_timeout():
-	queue_free()
+	pass
+	#queue_free()

@@ -23,16 +23,21 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Port" type="LineEdit" parent="CanvasLayer/Menu"]
-layout_mode = 2
-text = "1"
-placeholder_text = "999999"
+offset_right = 67.0
+offset_bottom = 31.0
+text = "9999"
+placeholder_text = "9999"
 
 [node name="Join" type="Button" parent="CanvasLayer/Menu"]
-layout_mode = 2
+offset_top = 35.0
+offset_right = 67.0
+offset_bottom = 66.0
 text = "Join"
 
 [node name="Host" type="Button" parent="CanvasLayer/Menu"]
-layout_mode = 2
+offset_top = 70.0
+offset_right = 67.0
+offset_bottom = 101.0
 text = "Host"
 
 [node name="Sun" type="OmniLight3D" parent="."]
@@ -79,12 +84,14 @@ material = SubResource("StandardMaterial3D_hcnes")
 [node name="CollisionShape3D" parent="CSGSphere3D3/GravityField" index="0"]
 shape = SubResource("SphereShape3D_suvkf")
 
+[node name="NetworkedNodes" type="Node" parent="."]
+
 [node name="OverworldCamera" type="Camera3D" parent="."]
 transform = Transform3D(-0.994432, 0.079046, -0.0696884, 2.44424e-08, 0.661312, 0.750111, 0.105379, 0.745935, -0.65763, -8.65348, 44.952, -40.7266)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Player.tscn", "res://Hitbox.tscn", "res://BulletHole.tscn")
-spawn_path = NodePath("..")
+spawn_path = NodePath("../NetworkedNodes")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_pssv6")

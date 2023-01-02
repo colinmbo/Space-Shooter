@@ -34,25 +34,25 @@ var is_on_floor = false
 var can_try_boosting = false
 
 
-func _unhandled_input(event):
+func _input(event):
 	
 	if is_multiplayer_authority():
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		if event is InputEventMouseMotion:
 			#forward_direction = forward_direction.rotated(transform.basis.y, -event.relative.x * 0.5)
-			y_rotation_amt = -event.relative.x * 0.02
-			$Camera3D.rotate_x(-event.relative.y * 0.02)
+			y_rotation_amt = -event.relative.x * 0.005
+			$Camera3D.rotate_x(-event.relative.y * 0.005)
 
 
 func _ready():
-	
-	set_multiplayer_authority(str(name).to_int())
 	
 	health = max_health
 	fuel = max_fuel
 	$CanvasLayer/HealthBar.max_value = max_health
 	$CanvasLayer/FuelBar.max_value = max_fuel
+	
+	set_multiplayer_authority(str(name).to_int())
 	
 	# Set correct multiplayer authority visibility
 	$CanvasLayer/HealthBar.visible = is_multiplayer_authority()
@@ -122,6 +122,9 @@ func _integrate_forces(state):
 	
 
 func check_hitscan():
+	
+	print($MultiplayerSynchronizer.is_multiplayer_authority())
+	
 	var hs = $Camera3D/Hitscan as RayCast3D
 	hs.force_raycast_update()
 	if !hs.is_colliding():
@@ -138,10 +141,14 @@ func check_hitscan():
 	
 	else:
 		# Bullethole
+		
+		#get_parent().get_node("MultiplayerSpawner").set_multiplayer_authority(get_multiplayer_authority())
 		var bh = load("res://BulletHole.tscn").instantiate()
-		get_tree().root.get_child(0).add_child(bh, true)
+		
+		get_tree().root.get_child(0).get_node("NetworkedNodes").add_child(bh, true)
 		bh.global_position = hs.get_collision_point() + hs.get_collision_normal() * 0.1
 		bh.normal = hs.get_collision_normal()
+		print(str(get_multiplayer_authority()) + "	" + str(bh.global_position))
 	
 
 @rpc

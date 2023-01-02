@@ -1,0 +1,16 @@
+0b7126e0c6e86d3ec295a72f5aa6e0bd
+::res://::1672626638
+BulletHole.gd::GDScript::-1::1672620916::0::1::::BulletHole<>Node3D<>::
+bullethole.png::CompressedTexture2D::2453299639913021888::1672620916::1672622587::1::::<><>::
+BulletHole.tscn::PackedScene::5361438703260591159::1672620916::0::1::::<><>::res://BulletHole.gd<>uid://ba7nqss2u8c5u
+Checkered.webp::CompressedTexture2D::5715455740539977982::1672620916::1672622587::1::::<><>::
+crosshair.png::CompressedTexture2D::8085964690264092355::1672620916::1672622587::1::::<><>::
+GravityField.gd::GDScript::-1::1672620916::0::1::::<>Area3D<>::
+GravityField.tscn::PackedScene::5659690866781790511::1672620916::0::1::::<><>::res://GravityField.gd
+Hitbox.gd::GDScript::-1::1672620916::0::1::::Hitbox<>Area3D<>::
+Hitbox.tscn::PackedScene::2939000213699337708::1672620916::0::1::::<><>::res://Hitbox.gd
+icon.svg::CompressedTexture2D::4772918219942783744::1672620916::1672622587::1::::<><>::
+Main.gd::GDScript::-1::1672620916::0::1::::<>Node3D<>::
+Main.tscn::PackedScene::4381958902942373875::1672624099::0::1::::<><>::res://Main.gd<>uid://cnouyrqrfomdi<>uid://cmvujtvlok4v8
+Player.gd::GDScript::-1::1672624099::0::1::::Player<>RigidBody3D<>::
+Player.tscn::PackedScene::6025297178773846818::1672624099::0::1::::<><>::res://Player.gd<>uid://dng5wltwha8rn
