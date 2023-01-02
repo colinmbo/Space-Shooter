@@ -1,5 +1,10 @@
-Timer
+Label
+MultiplayerSynchronizer
+CollisionShape3D
+Area3D
+Node3D
 MeshInstance3D
+Timer
 BoneAttachment3D
 ColorRect
 TextureRect

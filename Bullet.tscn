@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://df6cllsjjwo4a"]
+[gd_scene load_steps=8 format=3 uid="uid://df6cllsjjwo4a"]
 
 [ext_resource type="Script" path="res://Bullet.gd" id="1_ynisd"]
 
@@ -16,10 +16,25 @@ blend_mode = 1
 cull_mode = 2
 shading_mode = 0
 albedo_texture = SubResource("GradientTexture2D_uau27")
+uv1_scale = Vector3(0.05, 0.05, 0)
+uv1_offset = Vector3(0, 0.5, 0)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_ox7l1"]
+material = SubResource("StandardMaterial3D_duuna")
+size = Vector3(0.5, 12, 0.5)
 
 [sub_resource type="QuadMesh" id="QuadMesh_jwduo"]
 material = SubResource("StandardMaterial3D_duuna")
 size = Vector2(1, 12)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8tquq"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
 
 [node name="Bullet" type="Node3D"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -27,13 +42,17 @@ script = ExtResource("1_ynisd")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0, 0, -6)
-mesh = SubResource("QuadMesh_jwduo")
+mesh = SubResource("BoxMesh_ox7l1")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(4.37114e-08, -4.37114e-08, -1, -1, 1.74846e-07, -4.37114e-08, 1.74846e-07, 1, -4.37114e-08, 0, 0, -6)
+visible = false
 mesh = SubResource("QuadMesh_jwduo")
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_8tquq")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -8,3 +8,6 @@ res://Vignette.gdshader
 res://CharacterModel.tscn
 res://Bullet.tscn
 res://Bullet.gd
+res://BodyMat.tres
+res://Flag.gd
+res://Flag.tscn

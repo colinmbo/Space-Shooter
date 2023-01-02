@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b3owhtxva1k56"]
+[gd_scene load_steps=21 format=3 uid="uid://b3owhtxva1k56"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1_tm555"]
 [ext_resource type="Texture2D" uid="uid://77jmk87gioex" path="res://2k_moon.jpg" id="2_oa2bx"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://xuck6psa8221" path="res://2k_ceres_fictional.jpg" id="6_8rsr0"]
 [ext_resource type="Texture2D" uid="uid://4eymvf3xfdkk" path="res://2k_neptune.jpg" id="7_n87rj"]
 [ext_resource type="Texture2D" uid="uid://c0in3m341omws" path="res://2k_makemake_fictional.jpg" id="8_615qu"]
+[ext_resource type="PackedScene" uid="uid://bxwdvl704m8yh" path="res://Flag.tscn" id="10_bvkxj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hcnes"]
 albedo_texture = ExtResource("2_oa2bx")
@@ -87,6 +88,12 @@ material = SubResource("StandardMaterial3D_hcnes")
 
 [node name="CollisionShape3D" parent="CSGSphere3D/GravityField" index="0"]
 shape = SubResource("SphereShape3D_suvkf")
+
+[node name="Flag" parent="CSGSphere3D" instance=ExtResource("10_bvkxj")]
+transform = Transform3D(0.645246, 0.75481, 0.117983, -0.652647, 0.624884, -0.428453, -0.397126, 0.199456, 0.895828, 31.27, 25.7435, 3.46283)
+
+[node name="Flag2" parent="CSGSphere3D" instance=ExtResource("10_bvkxj")]
+transform = Transform3D(0.261308, 0.960271, -0.0979647, -0.879778, 0.195183, -0.433468, -0.397126, 0.199456, 0.895828, 38.0745, 7.72734, 11.0094)
 
 [node name="CSGSphere3D2" type="CSGSphere3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 83.2865, -14.9777, -27.6294)

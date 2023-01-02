@@ -8,7 +8,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	global_position -= global_transform.basis.z * 0.7
+	global_position -= global_transform.basis.z * 1
 	pass
 
 

@@ -35,5 +35,7 @@ func add_player_character(id = 1):
 	print("Player connected. ID: ", id)
 	var character = preload("res://Player.tscn").instantiate()
 	character.name = str(id)
-	#character.set_multiplayer_authority(id)
 	$NetworkedNodes.add_child(character, true)
+	
+	character.tree_exited.connect(func(): add_player_character(id))
+

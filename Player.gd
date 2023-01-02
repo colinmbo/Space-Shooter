@@ -9,11 +9,17 @@ extends RigidBody3D
 @export var max_fuel = 100
 
 
+var score = 0
+
+
 @export var health = max_health:
 	set(val):
 		val = clamp(val, 0, max_health)
 		$CanvasLayer/HealthBar.value = val
 		health = val
+		if health == 0:
+			queue_free()
+		
 
 var fuel = max_fuel:
 	set(val):
@@ -33,7 +39,7 @@ var target_basis : Basis
 var is_on_floor = false
 var can_try_boosting = false
 
-var vignette_amt = 1
+var hurt_time = 1
 
 
 func _input(event):
@@ -43,8 +49,11 @@ func _input(event):
 		#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		if event is InputEventMouseMotion:
 			#forward_direction = forward_direction.rotated(transform.basis.y, -event.relative.x * 0.5)
-			y_rotation_amt = -event.relative.x * 0.005
-			$Camera3D.rotate_x(-event.relative.y * 0.005)
+			var sensitivity = 0.005
+			if $Camera3D.fov == 40:
+				sensitivity *= 0.5
+			y_rotation_amt = -event.relative.x * sensitivity
+			$Camera3D.rotate_x(-event.relative.y * sensitivity)
 
 
 func _ready():
@@ -52,6 +61,7 @@ func _ready():
 	health = max_health
 	fuel = max_fuel
 	$CanvasLayer/HealthBar.max_value = max_health
+	$CanvasLayer/HealthBar/DifferenceBar.max_value = max_health
 	$CanvasLayer/FuelBar.max_value = max_fuel
 	
 	set_multiplayer_authority(str(name).to_int())
@@ -59,16 +69,30 @@ func _ready():
 	# Set correct multiplayer authority visibility
 	$CharacterModel.visible = !is_multiplayer_authority()
 	$CanvasLayer/HealthBar.visible = is_multiplayer_authority()
+	$CanvasLayer/YourScore.visible = is_multiplayer_authority()
+	$CanvasLayer/Vignette.visible = is_multiplayer_authority()
 	$CanvasLayer/FuelBar.visible = is_multiplayer_authority()
 	$Camera3D.current = is_multiplayer_authority()
 
 
 func _process(delta):
+	
+	hurt_time = clamp(hurt_time - 0.001, 0, 1)
+	var vig = $CanvasLayer/Vignette.material as ShaderMaterial
+	
+	if hurt_time < 0.4:
+			var model = get_node("CharacterModel/Armature/Skeleton3D/Body") as MeshInstance3D
+			model.material_overlay.albedo_color.a = 0
+	
+	if hurt_time < 0.2:
+		$CanvasLayer/HealthBar/DifferenceBar.value = lerp($CanvasLayer/HealthBar/DifferenceBar.value, $CanvasLayer/HealthBar.value, 0.05)
+	
 	if is_multiplayer_authority():
 		
-		vignette_amt = clamp(vignette_amt - 0.001, 0, 1)
-		var vig = $CanvasLayer/Vignette.material as ShaderMaterial
-		vig.set_shader_parameter("scale", 1.0 - vignette_amt)
+		if Input.is_action_just_pressed("ui_cancel"):
+			rpc("take_damage", get_path(), max_health)
+		
+		vig.set_shader_parameter("scale", 1.0 - hurt_time)
 		
 		$Camera3D.rotation.x = clamp($Camera3D.rotation.x, -PI/2, PI/2)
 		
@@ -81,8 +105,19 @@ func _process(delta):
 		else:
 			is_on_floor = false
 		
-		if Input.is_action_just_pressed("shoot"):
-			check_hitscan()
+		
+		if Input.is_action_pressed("scope"):
+			$Camera3D.fov = 40
+		else:
+			$Camera3D.fov = 75
+		
+	else:
+		
+		$CanvasLayer/HealthBar.position = get_viewport().get_camera_3d().unproject_position(global_position + basis.y * 3) - Vector2($CanvasLayer/HealthBar.size.x / 2, $CanvasLayer/HealthBar.size.y )
+		if hurt_time < 0.001:
+			$CanvasLayer/HealthBar.visible = false
+		
+		
 
 
 func _physics_process(delta):
@@ -120,6 +155,9 @@ func _physics_process(delta):
 					if can_try_boosting:
 						apply_central_force(transform.basis.y * booster_force)
 						fuel -= 1
+		
+		if Input.is_action_just_pressed("shoot"):
+			check_hitscan()
 
 
 func _integrate_forces(state):
@@ -138,8 +176,14 @@ func check_hitscan():
 	hs.force_raycast_update()
 	
 	var b = "res://Bullet.tscn"
-	rpc_id(1, "spawn_instance", b, hs.global_position + hs.global_transform.basis.z, hs.global_transform.basis)
+	rpc_id(1, "spawn_instance", b, hs.global_position, hs.global_transform.basis)
 	
+#	$CharacterModel/Armature/Skeleton3D/BoneAttachment3D/MeshInstance3D.visible = false
+#	$CharacterModel/Armature/Skeleton3D/BoneAttachment3D/MeshInstance3D2.visible = true
+#	await get_tree().create_timer(2).timeout
+#	$CharacterModel/Armature/Skeleton3D/BoneAttachment3D/MeshInstance3D.visible = true
+#	$CharacterModel/Armature/Skeleton3D/BoneAttachment3D/MeshInstance3D2.visible = false
+		
 	if !hs.is_colliding():
 		return
 	
@@ -149,7 +193,10 @@ func check_hitscan():
 #		get_tree().root.get_child(0).add_child(hb, true)
 #		hb.global_position = hs.get_collision_point()
 #		hb.damage = 10
-		rpc("take_damage", hs.get_collider().get_path(), 10)
+		rpc("take_damage", hs.get_collider().get_path(), 30)
+		if hs.get_collider().health == 0:
+			score += 1
+			$CanvasLayer/YourScore.text = "Score: " + str(score)
 		
 	
 	else:
@@ -173,12 +220,12 @@ func check_hitscan():
 func take_damage(path, dmg):
 	var entity = get_node(path)
 	entity.health -= dmg
-	entity.vignette_amt = 0.5
+	entity.hurt_time = 0.5
+	
+	entity.get_node("CanvasLayer/HealthBar").visible = true
 	
 	var model = entity.get_node("CharacterModel/Armature/Skeleton3D/Body") as MeshInstance3D
 	model.material_overlay.albedo_color.a = 1
-	await get_tree().create_timer(0.2).timeout
-	model.material_overlay.albedo_color.a = 0
 	
 
 
