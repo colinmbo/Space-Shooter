@@ -77,7 +77,7 @@ func _ready():
 
 func _process(delta):
 	
-	hurt_time = clamp(hurt_time - 0.001, 0, 1)
+	hurt_time = clamp(hurt_time - 0.4 * delta, 0, 1)
 	var vig = $CanvasLayer/Vignette.material as ShaderMaterial
 	
 	if hurt_time < 0.4:
