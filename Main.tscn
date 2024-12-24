@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://b3owhtxva1k56"]
+[gd_scene load_steps=22 format=3 uid="uid://b3owhtxva1k56"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1_tm555"]
 [ext_resource type="Texture2D" uid="uid://77jmk87gioex" path="res://2k_moon.jpg" id="2_oa2bx"]
@@ -19,6 +19,8 @@ radius = 75.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qtwc2"]
 albedo_texture = ExtResource("4_7kcsf")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_axixd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cqbvy"]
 albedo_texture = ExtResource("4_5ox2v")
@@ -54,26 +56,23 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Port" type="LineEdit" parent="CanvasLayer/Menu"]
-offset_right = 67.0
-offset_bottom = 31.0
+layout_mode = 2
 text = "9999"
 placeholder_text = "9999"
 
 [node name="Join" type="Button" parent="CanvasLayer/Menu"]
-offset_top = 35.0
-offset_right = 67.0
-offset_bottom = 66.0
+layout_mode = 2
 text = "Join"
 
 [node name="Host" type="Button" parent="CanvasLayer/Menu"]
-offset_top = 70.0
-offset_right = 67.0
-offset_bottom = 101.0
+layout_mode = 2
 text = "Host"
 
 [node name="Sun" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.05711, 44.6544, 5.89277)
-omni_range = 1000.0
+shadow_enabled = true
+shadow_bias = 0.5
+omni_range = 4096.0
 omni_attenuation = 1e-05
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="."]
@@ -106,6 +105,19 @@ material = SubResource("StandardMaterial3D_qtwc2")
 [node name="GravityField" parent="CSGSphere3D2" instance=ExtResource("3_lwwu3")]
 
 [node name="CollisionShape3D" parent="CSGSphere3D2/GravityField" index="0"]
+shape = SubResource("SphereShape3D_suvkf")
+
+[node name="CSGSphere3D7" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1123.22, -14.9776, -1072.29)
+use_collision = true
+radius = 40.0
+radial_segments = 30
+rings = 20
+material = SubResource("StandardMaterial3D_axixd")
+
+[node name="GravityField" parent="CSGSphere3D7" instance=ExtResource("3_lwwu3")]
+
+[node name="CollisionShape3D" parent="CSGSphere3D7/GravityField" index="0"]
 shape = SubResource("SphereShape3D_suvkf")
 
 [node name="CSGSphere3D3" type="CSGSphere3D" parent="."]
@@ -177,6 +189,7 @@ environment = SubResource("Environment_pssv6")
 
 [editable path="CSGSphere3D/GravityField"]
 [editable path="CSGSphere3D2/GravityField"]
+[editable path="CSGSphere3D7/GravityField"]
 [editable path="CSGSphere3D3/GravityField"]
 [editable path="CSGSphere3D4/GravityField"]
 [editable path="CSGSphere3D5/GravityField"]

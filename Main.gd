@@ -11,7 +11,7 @@ func _process(delta):
 func _on_join_button_up():
 	var port = str($CanvasLayer/Menu/Port.text).to_int()
 	
-	multiplayer_peer.create_client("192.168.1.71", port)
+	multiplayer_peer.create_client("192.168.1.122", port)
 	multiplayer.multiplayer_peer = multiplayer_peer
 	
 	$CanvasLayer/Menu.visible = false
@@ -38,4 +38,3 @@ func add_player_character(id = 1):
 	$NetworkedNodes.add_child(character, true)
 	
 	character.tree_exited.connect(func(): add_player_character(id))
-

@@ -49,9 +49,9 @@ func _input(event):
 		#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		if event is InputEventMouseMotion:
 			#forward_direction = forward_direction.rotated(transform.basis.y, -event.relative.x * 0.5)
-			var sensitivity = 0.005
-			if $Camera3D.fov == 40:
-				sensitivity *= 0.5
+			var sensitivity = 0.003
+			if $Camera3D.fov == 20:
+				sensitivity *= 0.2
 			y_rotation_amt = -event.relative.x * sensitivity
 			$Camera3D.rotate_x(-event.relative.y * sensitivity)
 
@@ -107,9 +107,9 @@ func _process(delta):
 		
 		
 		if Input.is_action_pressed("scope"):
-			$Camera3D.fov = 40
+			$Camera3D.fov = 20
 		else:
-			$Camera3D.fov = 75
+			$Camera3D.fov = 80
 		
 	else:
 		
@@ -155,6 +155,8 @@ func _physics_process(delta):
 					if can_try_boosting:
 						apply_central_force(transform.basis.y * booster_force)
 						fuel -= 1
+			
+			fuel += 0.05
 		
 		if Input.is_action_just_pressed("shoot"):
 			check_hitscan()
@@ -176,7 +178,7 @@ func check_hitscan():
 	hs.force_raycast_update()
 	
 	var b = "res://Bullet.tscn"
-	rpc_id(1, "spawn_instance", b, hs.global_position, hs.global_transform.basis)
+	rpc_id(1, "spawn_instance", b, global_position, hs.global_transform.basis)
 	
 #	$CharacterModel/Armature/Skeleton3D/BoneAttachment3D/MeshInstance3D.visible = false
 #	$CharacterModel/Armature/Skeleton3D/BoneAttachment3D/MeshInstance3D2.visible = true
@@ -216,7 +218,7 @@ func check_hitscan():
 		rpc_id(1, "spawn_instance", bh, orig, bas)
 
 
-@rpc (call_local)
+@rpc ("call_local")
 func take_damage(path, dmg):
 	var entity = get_node(path)
 	entity.health -= dmg
@@ -229,7 +231,7 @@ func take_damage(path, dmg):
 	
 
 
-@rpc (call_local)
+@rpc ("call_local")
 func spawn_instance(path, orig, bas):
 	var inst = load(path).instantiate()
 	get_parent().add_child(inst, true)

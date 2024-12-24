@@ -4,23 +4,22 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bkblm3w6vj1ty"
 path.s3tc="res://.godot/imported/2k_stars.jpg-b92385bd5e7d8ecd1b06248ffd6be00a.s3tc.ctex"
-path.etc2="res://.godot/imported/2k_stars.jpg-b92385bd5e7d8ecd1b06248ffd6be00a.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://2k_stars.jpg"
-dest_files=["res://.godot/imported/2k_stars.jpg-b92385bd5e7d8ecd1b06248ffd6be00a.s3tc.ctex", "res://.godot/imported/2k_stars.jpg-b92385bd5e7d8ecd1b06248ffd6be00a.etc2.ctex"]
+dest_files=["res://.godot/imported/2k_stars.jpg-b92385bd5e7d8ecd1b06248ffd6be00a.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
