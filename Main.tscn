@@ -1,7 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://b3owhtxva1k56"]
+[gd_scene load_steps=23 format=3 uid="uid://b3owhtxva1k56"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1_tm555"]
 [ext_resource type="Texture2D" uid="uid://77jmk87gioex" path="res://2k_moon.jpg" id="2_oa2bx"]
+[ext_resource type="Script" path="res://Planet.gd" id="3_g0ajd"]
 [ext_resource type="PackedScene" uid="uid://cmvujtvlok4v8" path="res://GravityField.tscn" id="3_lwwu3"]
 [ext_resource type="Texture2D" uid="uid://bteqvr8mj3vcv" path="res://2k_earth_daymap.jpg" id="4_5ox2v"]
 [ext_resource type="Texture2D" uid="uid://17d01pe7w1sh" path="res://2k_jupiter.jpg" id="4_7kcsf"]
@@ -77,11 +78,13 @@ omni_attenuation = 1e-05
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.4918, -14.9777, -33.5972)
+visible = false
 use_collision = true
 radius = 40.0
 radial_segments = 30
 rings = 20
 material = SubResource("StandardMaterial3D_hcnes")
+script = ExtResource("3_g0ajd")
 
 [node name="GravityField" parent="CSGSphere3D" instance=ExtResource("3_lwwu3")]
 
@@ -96,11 +99,13 @@ transform = Transform3D(0.261308, 0.960271, -0.0979647, -0.879778, 0.195183, -0.
 
 [node name="CSGSphere3D2" type="CSGSphere3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 83.2865, -14.9777, -27.6294)
+visible = false
 use_collision = true
 radius = 40.0
 radial_segments = 30
 rings = 20
 material = SubResource("StandardMaterial3D_qtwc2")
+script = ExtResource("3_g0ajd")
 
 [node name="GravityField" parent="CSGSphere3D2" instance=ExtResource("3_lwwu3")]
 
@@ -109,11 +114,13 @@ shape = SubResource("SphereShape3D_suvkf")
 
 [node name="CSGSphere3D7" type="CSGSphere3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1123.22, -14.9776, -1072.29)
+visible = false
 use_collision = true
 radius = 40.0
 radial_segments = 30
 rings = 20
 material = SubResource("StandardMaterial3D_axixd")
+script = ExtResource("3_g0ajd")
 
 [node name="GravityField" parent="CSGSphere3D7" instance=ExtResource("3_lwwu3")]
 
@@ -122,11 +129,13 @@ shape = SubResource("SphereShape3D_suvkf")
 
 [node name="CSGSphere3D3" type="CSGSphere3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.83556, -14.6469, 85.2814)
+visible = false
 use_collision = true
 radius = 40.0
 radial_segments = 30
 rings = 20
 material = SubResource("StandardMaterial3D_cqbvy")
+script = ExtResource("3_g0ajd")
 
 [node name="GravityField" parent="CSGSphere3D3" instance=ExtResource("3_lwwu3")]
 
@@ -135,11 +144,13 @@ shape = SubResource("SphereShape3D_suvkf")
 
 [node name="CSGSphere3D4" type="CSGSphere3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150.825, -44.5488, 97.04)
+visible = false
 use_collision = true
 radius = 40.0
 radial_segments = 30
 rings = 20
 material = SubResource("StandardMaterial3D_71feh")
+script = ExtResource("3_g0ajd")
 
 [node name="GravityField" parent="CSGSphere3D4" instance=ExtResource("3_lwwu3")]
 
@@ -148,11 +159,13 @@ shape = SubResource("SphereShape3D_suvkf")
 
 [node name="CSGSphere3D5" type="CSGSphere3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.88435, -44.5488, -151.269)
+visible = false
 use_collision = true
 radius = 40.0
 radial_segments = 30
 rings = 20
 material = SubResource("StandardMaterial3D_n4qeg")
+script = ExtResource("3_g0ajd")
 
 [node name="GravityField" parent="CSGSphere3D5" instance=ExtResource("3_lwwu3")]
 
@@ -161,11 +174,13 @@ shape = SubResource("SphereShape3D_suvkf")
 
 [node name="CSGSphere3D6" type="CSGSphere3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -140.962, -44.5488, 96.7616)
+visible = false
 use_collision = true
 radius = 40.0
 radial_segments = 30
 rings = 20
 material = SubResource("StandardMaterial3D_gwr4i")
+script = ExtResource("3_g0ajd")
 
 [node name="GravityField" parent="CSGSphere3D6" instance=ExtResource("3_lwwu3")]
 

@@ -1,3 +1,6 @@
 res://Main.tscn
 res://BodyMat.tres
 res://Main.gd
+res://Player.tscn
+res://Player.gd
+res://Planet.gd

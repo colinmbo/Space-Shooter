@@ -2,7 +2,7 @@ class_name Player
 extends RigidBody3D
 
 
-@export var move_speed = 0.5
+@export var move_speed = 50
 @export var jump_force = 10
 @export var booster_force = 30
 @export var max_health = 100
@@ -36,7 +36,6 @@ var forward_direction = Vector3.FORWARD
 var gravity_direction = Vector3.DOWN
 var target_basis : Basis
 
-var is_on_floor = false
 var can_try_boosting = false
 
 var hurt_time = 1
@@ -87,6 +86,7 @@ func _process(delta):
 	if hurt_time < 0.2:
 		$CanvasLayer/HealthBar/DifferenceBar.value = lerp($CanvasLayer/HealthBar/DifferenceBar.value, $CanvasLayer/HealthBar.value, 0.05)
 	
+	# If this instance is the active player
 	if is_multiplayer_authority():
 		
 		if Input.is_action_just_pressed("ui_cancel"):
@@ -100,12 +100,7 @@ func _process(delta):
 			if global_position.distance_to(current_gravity_center) < 50:
 				gravity_direction = global_position.direction_to(current_gravity_center)
 		
-		if $RayCast3D.is_colliding() && linear_velocity.dot(transform.basis.y) < 5:
-			is_on_floor = true
-		else:
-			is_on_floor = false
-		
-		
+		# Handle zooming through scope
 		if Input.is_action_pressed("scope"):
 			$Camera3D.fov = 20
 		else:
@@ -128,27 +123,34 @@ func _physics_process(delta):
 		
 		forward_direction = transform.basis.z
 		
-		if is_on_floor:
+		# IF ON THE FLOOR
+		if is_on_floor():
 			
+			# Allow moving
 			if input_dir:
-				apply_central_impulse(oriented_input_dir * move_speed)
+				apply_central_force(oriented_input_dir * move_speed)
 				$CharacterModel/AnimationPlayer.play("run_forward")
 			else:
 				$CharacterModel/AnimationPlayer.play("idle")
 			
+			# Allow jumping
 			if Input.is_action_just_pressed("jump"):
 				can_try_boosting = false
 				apply_central_impulse(transform.basis.y * jump_force)
 			
+			# Increase fuel quickly while grounded
 			fuel += 10
-			
+		
+		# IF IN THE AIR
 		else:
 			
 			if fuel > 0:
+				# Allow jetpack thrust based on directional input
 				if input_dir:
 					apply_central_force(oriented_input_dir * booster_force * 0.25)
 					fuel -= 0.25
 				
+				# Allow jetpack boosting
 				if Input.is_action_pressed("jump"):
 					if Input.is_action_just_pressed("jump"):
 						can_try_boosting = true
@@ -156,21 +158,33 @@ func _physics_process(delta):
 						apply_central_force(transform.basis.y * booster_force)
 						fuel -= 1
 			
+			# Increase fuel slowly while in the air
 			fuel += 0.05
 		
+		# Allow shooting
 		if Input.is_action_just_pressed("shoot"):
 			check_hitscan()
 
 
 func _integrate_forces(state):
 	
+	# Rotate to be perpendicular to ground
 	var left_axis = -gravity_direction.cross(forward_direction)
 	target_basis = Basis(left_axis, -gravity_direction, forward_direction).orthonormalized()
 	state.transform.basis = state.transform.basis.slerp(target_basis.get_rotation_quaternion(), 0.1)
 	
+	# Rotate based on looking direction
 	state.transform.basis = state.transform.basis.rotated(transform.basis.y, y_rotation_amt)
 	y_rotation_amt = 0
 	
+	if is_on_floor():
+		var limited_vel = state.linear_velocity.limit_length(5)
+		state.linear_velocity = state.linear_velocity.lerp(limited_vel, 0.25)
+	
+
+func is_on_floor():
+	return $RayCast3D.is_colliding() && linear_velocity.dot(transform.basis.y) < 5
+
 
 func check_hitscan():
 	

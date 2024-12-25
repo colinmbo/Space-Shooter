@@ -45,19 +45,19 @@ height = 2.4
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_opk3y"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
-properties/0/sync = true
+properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
-properties/1/sync = true
+properties/1/replication_mode = 1
 properties/2/path = NodePath(".:health")
 properties/2/spawn = true
-properties/2/sync = true
+properties/2/replication_mode = 1
 properties/3/path = NodePath("Camera3D:rotation")
 properties/3/spawn = true
-properties/3/sync = true
+properties/3/replication_mode = 1
 properties/4/path = NodePath("CharacterModel/AnimationPlayer:current_animation")
 properties/4/spawn = true
-properties/4/sync = true
+properties/4/replication_mode = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_psyt7"]
 resource_local_to_scene = true
@@ -133,7 +133,7 @@ offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_0buhs")
-ignore_texture_size = true
+expand_mode = 1
 
 [node name="HealthBar" type="ProgressBar" parent="CanvasLayer"]
 anchors_preset = 3
@@ -212,7 +212,7 @@ transform = Transform3D(1, 0, 7.10543e-15, 0, 1, 0, -7.10543e-15, 0, 1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_30b2n")
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="CharacterModel/Armature/Skeleton3D" index="2"]
-transform = Transform3D(1, -2.84217e-14, 2.38419e-07, 5.43119e-08, 0.973708, -0.227801, -2.3215e-07, 0.227801, 0.973708, -1.63605e-16, 0.350243, 0.298507)
+transform = Transform3D(1, -2.13163e-14, 2.38419e-07, 5.43119e-08, 0.973708, -0.227801, -2.3215e-07, 0.227801, 0.973708, 3.30731e-15, 0.350243, 0.298507)
 bone_name = "head"
 bone_idx = 2
 
